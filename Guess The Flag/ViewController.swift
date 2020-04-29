@@ -37,8 +37,16 @@ class ViewController: UIViewController {
         button3.layer.borderColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         
         askQuestion()
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(showScore))
     }
 
+    @objc func showScore() {
+        let vc = UIAlertController(title: "Your score is", message: "\(score)", preferredStyle: .alert)
+        vc.addAction(UIAlertAction(title: "continue", style: .default, handler: nil))
+        present(vc, animated: true, completion: nil)
+    }
+    
     func askQuestion(action: UIAlertAction? = nil) {
         countries.shuffle()
         button1.setImage(UIImage(named: countries[0]), for: .normal)
