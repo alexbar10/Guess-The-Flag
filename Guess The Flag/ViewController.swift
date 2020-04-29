@@ -16,12 +16,17 @@ class ViewController: UIViewController {
     
     var countries = [String]()
     var score = 0
+    var correctAnswer = 0 {
+        didSet {
+            title = countries[correctAnswer].uppercased()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        countries += ["estonia", "france", "germany", "ireland", "italy", "monaco", "nigeria", "poland", "russian", "spain", "uk", "us"]
+        countries += ["estonia", "france", "germany", "ireland", "italy", "monaco", "nigeria", "poland", "russia", "spain", "uk", "us"]
         
         button1.layer.borderWidth = 1
         button2.layer.borderWidth = 1
@@ -34,9 +39,12 @@ class ViewController: UIViewController {
     }
 
     func askQuestion() {
+        countries.shuffle()
         button1.setImage(UIImage(named: countries[0]), for: .normal)
         button2.setImage(UIImage(named: countries[1]), for: .normal)
         button3.setImage(UIImage(named: countries[2]), for: .normal)
+        
+        correctAnswer = Int.random(in: 0...2)
     }
     
 }
