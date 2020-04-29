@@ -16,9 +16,10 @@ class ViewController: UIViewController {
     
     var countries = [String]()
     var score = 0
+    var track = 5
     var correctAnswer = 0 {
         didSet {
-            title = countries[correctAnswer].uppercased()
+            title = "\(countries[correctAnswer].uppercased()). Score \(score)"
         }
     }
     
@@ -47,6 +48,12 @@ class ViewController: UIViewController {
         correctAnswer = Int.random(in: 0...2)
     }
     
+    func resetGame(action: UIAlertAction?) {
+        score = 0
+        track = 5
+        askQuestion()
+    }
+    
     @IBAction func buttonTapped(_ sender: UIButton) {
         if sender.tag == correctAnswer {
             title = "Correct"
@@ -56,9 +63,16 @@ class ViewController: UIViewController {
             score -= 1
         }
         
-        let alertController = UIAlertController(title: title, message: "Your score: \(score)", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Continue", style: .default, handler: askQuestion))
-        present(alertController, animated: true, completion: nil)
+        track -= 1
+        if track == 0 {
+            let alertController = UIAlertController(title: "End Game", message: "Your final score: \(score)", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Continue", style: .default, handler: resetGame))
+            present(alertController, animated: true, completion: nil)
+        } else {
+            let alertController = UIAlertController(title: title, message: (sender.tag == correctAnswer ? "Your score: \(score)" : "Wrong!, That's the flag of \(countries[sender.tag].localizedUppercase)"), preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Continue", style: .default, handler: askQuestion))
+            present(alertController, animated: true, completion: nil)
+        }
     }
 }
 
